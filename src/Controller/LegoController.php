@@ -7,16 +7,11 @@ namespace App\Controller;
 
 /* indique l'utilisation du bon bundle pour gérer nos routes */
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 9ef9968c2642081d49aea0fe0fd3fedcd1b81a44
 
 use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Lego;
-<<<<<<< HEAD
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\CreditsGenerator;
 /* le nom de la classe doit être cohérent avec le nom du fichier */
@@ -26,23 +21,6 @@ use App\Service\CreditsGenerator;
 class LegoController extends AbstractController
 {
     private $legos = [];
-=======
-=======
-use stdClass;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Attribute\Route;
-
->>>>>>> f1611ec2388e6b7a8453045dc00ecaca5ca41d71
-use Symfony\Component\HttpFoundation\Response;
-/* le nom de la classe doit être cohérent avec le nom du fichier */
-
-
-<<<<<<< HEAD
-
-class LegoController extends AbstractController
-{
-    private  $legos = [];
->>>>>>> 9ef9968c2642081d49aea0fe0fd3fedcd1b81a44
 
     public function __construct()
     {
@@ -51,17 +29,11 @@ class LegoController extends AbstractController
         $legoData = json_decode($jsonContents);
 
         foreach ($legoData as $data) {
-<<<<<<< HEAD
             $lego = new Lego(
                 $data->id,
                 $data->name,
                 $data->collection
             );
-=======
-            $lego = new Lego(  $data->id,
-            $data->name,
-            $data->collection);
->>>>>>> 9ef9968c2642081d49aea0fe0fd3fedcd1b81a44
 
             $lego->setDescription($data->description);
             $lego->setPrice($data->price);
@@ -69,7 +41,6 @@ class LegoController extends AbstractController
             $lego->setBoxImage($data->images->box);
             $lego->setLegoImage($data->images->bg);
 
-<<<<<<< HEAD
             $this->legos[] = $lego;
         }
         
@@ -88,30 +59,13 @@ class LegoController extends AbstractController
         }
         return ($collections);
        }
-=======
-
-            $this->legos[] = $lego;
-        }
-    }
-=======
-class LegoController extends AbstractController
-{
-   // L’attribute #[Route] indique ici que l'on associe la route
-   // "/" à la méthode home pour que Symfony l'exécute chaque fois
-   // que l'on accède à la racine de notre site.
->>>>>>> f1611ec2388e6b7a8453045dc00ecaca5ca41d71
-
->>>>>>> 9ef9968c2642081d49aea0fe0fd3fedcd1b81a44
 
    #[Route('/', )]
    public function home()
    {
-<<<<<<< HEAD
     return $this->render('lego.html.twig', [
         "legos" => $this->legos,
     ]);
-=======
->>>>>>> 9ef9968c2642081d49aea0fe0fd3fedcd1b81a44
     $response = new Response(
         'get Lost',
         Response::HTTP_OK,
@@ -127,14 +81,8 @@ class LegoController extends AbstractController
     $cocci->pieces = 1167;
     $cocci->boxImage = "LEGO_10252_Box.png";
     $cocci->legoImage = "LEGO_10252_Main.jpg";
-<<<<<<< HEAD
    
 
-=======
-    return $this->render('lego.html.twig', [
-        "lego" => $cocci,
-    ]);
->>>>>>> 9ef9968c2642081d49aea0fe0fd3fedcd1b81a44
 
    }
    
@@ -143,7 +91,6 @@ class LegoController extends AbstractController
    {
        die("Quentin Brandy");
    }
-<<<<<<< HEAD
 
    
 
@@ -162,10 +109,3 @@ public function filter($collection): Response
 }
    
 
-=======
-<<<<<<< HEAD
-   
-=======
->>>>>>> f1611ec2388e6b7a8453045dc00ecaca5ca41d71
-}
->>>>>>> 9ef9968c2642081d49aea0fe0fd3fedcd1b81a44
