@@ -14,6 +14,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Lego;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\CreditsGenerator;
+use App\Service\DatabaseInterface;
+
 /* le nom de la classe doit être cohérent avec le nom du fichier */
 
 
@@ -24,6 +26,7 @@ class LegoController extends AbstractController
 
     public function __construct()
     {
+      
         $dataFilePath = __DIR__ . '/../data.json';
         $jsonContents = file_get_contents($dataFilePath);
         $legoData = json_decode($jsonContents);
@@ -71,6 +74,7 @@ class LegoController extends AbstractController
         Response::HTTP_OK,
         ['content-type' => 'text/html'] 
     );
+   
     $cocci = new stdClass();
 
     $cocci->collection = "Creator Expert";
@@ -95,17 +99,27 @@ class LegoController extends AbstractController
    
 
    #[Route('/{collection}', name: 'filter_by_collection' , requirements:['collection' => 'creator|starwars|expert|creator_expert'])]
-public function filter($collection): Response
+public function filter(DatabaseInterface $database , $collection): Response
 {
-    return $this->render('lego.html.twig', [
-        "legos" => $this->filtercollection($collection),
-    ]);
+        $legos = $database->getLegosByCollection($collection);
+        return $this->render('lego.html.twig', ['legos' => $legos]);
 }
+
     #[Route('/credits', 'credits')]
     public function credits(CreditsGenerator $credits): Response
     {
         return new Response($credits->getCredits());
     }
+
+
+    #[Route('/legos')]
+    public function lego(DatabaseInterface $database): Response
+    {
+        $legos = $database->getAllLegos();
+        return $this->render('lego.html.twig', ['legos' => $legos]);
+    }
+    
+    
+
 }
    
-
