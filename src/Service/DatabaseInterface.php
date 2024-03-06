@@ -21,4 +21,5 @@ public function getLegosByCollection($collection) :array{
     json_encode($res);
     return $res;
 }
+
 }

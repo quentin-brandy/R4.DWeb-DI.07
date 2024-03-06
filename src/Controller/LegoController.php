@@ -15,6 +15,9 @@ use App\Entity\Lego;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\CreditsGenerator;
 use App\Service\DatabaseInterface;
+use Doctrine\ORM\EntityManagerInterface;
+
+
 
 /* le nom de la classe doit être cohérent avec le nom du fichier */
 
@@ -49,7 +52,7 @@ class LegoController extends AbstractController
         
     }
 
-   
+  
     public function filtercollection($collec){
        $collections = [];
    $collec = ucwords(str_replace('_',' ',$collec ));
@@ -119,7 +122,27 @@ public function filter(DatabaseInterface $database , $collection): Response
         return $this->render('lego.html.twig', ['legos' => $legos]);
     }
     
-    
+    #[Route('/test' , name: 'create_lego')]
+    public function test(EntityManagerInterface $entityManager): Response
+    {
+        $l = new Lego(1234);
+        $l->setName("un beau Lego");
+        $l->setCollection("Lego espace");
+        $l->setDescription("eeeeeeeeeeeeeeeeeeeeeeeeeee");
+        $l->setPrice("1220.02");
+        $l->setPieces("200");
+        $l->setBoxImage("Lego espace");
+        $l->setLegoImage("Lego espace");
+      
+
+         $entityManager->persist($l);
+
+   
+         $entityManager->flush();
+ 
+         return new Response('Saved new product with id '.$l->getId());
+    }
+
 
 }
    
