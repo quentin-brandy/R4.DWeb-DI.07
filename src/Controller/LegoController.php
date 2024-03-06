@@ -98,10 +98,10 @@ class LegoController extends AbstractController
 
    
 
-   #[Route('/{collection}', name: 'filter_by_collection' , requirements:['collection' => 'creator|starwars|expert|creator_expert'])]
+   #[Route('/{collection}', name: 'filter_by_collection' , requirements:['collection' => 'creator|starwars|expert|creator_expert|harry_potter'])]
 public function filter(DatabaseInterface $database , $collection): Response
 {
-        $legos = $database->getLegosByCollection($collection);
+        $legos = $database->getLegosByCollection($collection = ucwords(str_replace('_',' ', $collection )));
         return $this->render('lego.html.twig', ['legos' => $legos]);
 }
 
