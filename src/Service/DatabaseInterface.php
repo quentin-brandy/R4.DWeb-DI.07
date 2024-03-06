@@ -7,7 +7,7 @@ class DatabaseInterface
 {
 
 public function getAllLegos(){
-    $cnx = new PDO("mysql:host=tp-symfony-mysql;dbname=mysql", "root", "root");
+    $cnx = new PDO("mysql:host=tp-symfony-mysql;dbname=lego_store", "root", "root");
     $answer = $cnx->query("SELECT * FROM lego"); 
     $res = $answer->fetchAll(PDO::FETCH_OBJ);
     json_encode($res);
@@ -22,4 +22,17 @@ public function getLegosByCollection($collection) :array{
     return $res;
 }
 
+
+public function getAllCollection(): array
+    {
+        $cnx = new PDO("mysql:host=tp-symfony-mysql;dbname=lego_store", "root", "root");
+        $answer = $cnx->query("SELECT DISTINCT collection FROM `lego`"); 
+        $res = $answer->fetchAll(PDO::FETCH_OBJ);
+        $return = [];
+        foreach ($res as $obj) {
+            array_push($return, $obj->collection);
+        }
+        return $return;
+    }
 }
+

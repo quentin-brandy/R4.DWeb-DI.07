@@ -10,12 +10,13 @@ namespace App\Controller;
 
 use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Lego;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\CreditsGenerator;
 use App\Service\DatabaseInterface;
-use Doctrine\ORM\EntityManagerInterface;
+
 
 
 
@@ -66,32 +67,22 @@ class LegoController extends AbstractController
         return ($collections);
        }
 
-   #[Route('/', )]
-   public function home()
-   {
-    return $this->render('lego.html.twig', [
-        "legos" => $this->legos,
-    ]);
-    $response = new Response(
-        'get Lost',
-        Response::HTTP_OK,
-        ['content-type' => 'text/html'] 
-    );
+       public $coll;
+       
+  
+
+    
+       #[Route('/', )]
+       public function homeAll(DatabaseInterface $lego): Response
+       {  
    
-    $cocci = new stdClass();
-
-    $cocci->collection = "Creator Expert";
-    $cocci->id = 10252;
-    $cocci->name = "La coccinelle Volkwagen";
-    $cocci->description = "Construis une réplique LEGO® Creator Expert de l'automobile la plus populaire au monde. Ce magnifique modèle LEGO est plein de détails authentiques qui capturent le charme et la personnalité de la voiture, notamment un coloris bleu ciel, des ailes arrondies, des jantes blanches avec des enjoliveurs caractéristiques, des phares ronds et des clignotants montés sur les ailes.";
-    $cocci->price = 94.99;
-    $cocci->pieces = 1167;
-    $cocci->boxImage = "LEGO_10252_Box.png";
-    $cocci->legoImage = "LEGO_10252_Main.jpg";
-   
-
-
-   }
+           $this->coll = $lego->getAllCollection();
+           // dump($this->coll);
+           return $this->render("lego.html.twig", [
+               'legos' => $lego->getAllLegos(),
+               'collection' =>$lego->getAllCollection(),
+           ]);
+       }
    
    #[Route('/me', )]
    public function me()
