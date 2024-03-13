@@ -16,7 +16,7 @@ use App\Entity\Lego;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\CreditsGenerator;
 use App\Service\DatabaseInterface;
-
+use App\Repository\LegoRepository;
 
 
 
@@ -53,36 +53,17 @@ class LegoController extends AbstractController
         
     }
 
-  
-    public function filtercollection($collec){
-       $collections = [];
-   $collec = ucwords(str_replace('_',' ',$collec ));
-        foreach($this->legos as $lego){
-            if($lego->getCollection() == $collec){
-                $collections[] = $lego;
-             
-            }
-          
-        }
-        return ($collections);
-       }
-
-       public $coll;
-       
-  
-
-    
-       #[Route('/', )]
-       public function homeAll(DatabaseInterface $lego): Response
-       {  
-   
-           $this->coll = $lego->getAllCollection();
-           // dump($this->coll);
-           return $this->render("lego.html.twig", [
-               'legos' => $lego->getAllLegos(),
-               'collection' =>$lego->getAllCollection(),
-           ]);
-       }
+      
+       #[Route('/', name: 'home')]
+           public function homeAll(LegoRepository $legoRepository): Response
+           {  
+               $legos = $legoRepository->findAll();
+            $collections = $legoRepository->findAllCollections();
+               return $this->render("lego.html.twig", [
+                   'legos' => $legos,
+                   'collections' => $collections
+               ]);
+           }
    
    #[Route('/me', )]
    public function me()
@@ -91,13 +72,17 @@ class LegoController extends AbstractController
    }
 
    
-
-   #[Route('/{collection}', name: 'filter_by_collection' , requirements:['collection' => 'creator|starwars|expert|creator_expert|harry_potter'])]
-public function filter(DatabaseInterface $database , $collection): Response
-{
-        $legos = $database->getLegosByCollection($collection = ucwords(str_replace('_',' ', $collection )));
-        return $this->render('lego.html.twig', ['legos' => $legos]);
+#[Route('/{collection}', name: 'filter_by_collection')]
+public function filterByCollection(string $collection, LegoRepository $legoRepository): Response
+{  
+    $legos = $legoRepository->findByCollection($collection = ucwords(str_replace('_',' ', $collection )));
+    $collections = $legoRepository->findAllCollections();
+    return $this->render("lego.html.twig", [
+        'legos' => $legos,
+        'collections' =>$collections
+    ]);
 }
+
 
     #[Route('/credits', 'credits')]
     public function credits(CreditsGenerator $credits): Response

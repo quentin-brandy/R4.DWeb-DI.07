@@ -9,6 +9,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use App\Entity\Lego;
+use Doctrine\ORM\EntityManagerInterface;
 
 #[AsCommand(
     name: 'app:populate-database',
@@ -16,33 +18,55 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class PopulateDatabaseCommand extends Command
 {
-    public function __construct()
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager) 
     {
+        $this->entityManager = $entityManager;
         parent::__construct();
     }
 
+
     protected function configure(): void
     {
-        $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
+        $this->addArgument('jsonFile', InputArgument::REQUIRED, 'Path to the JSON file');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
+        $jsonFilePath = $input->getArgument('jsonFile');
 
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
+        if (!file_exists($jsonFilePath)) {
+            $io->error('Ce JSON existe pas');
+            return Command::FAILURE;
         }
 
-        if ($input->getOption('option1')) {
-            // ...
+        $jsonContents = file_get_contents($jsonFilePath);
+        $legoData = json_decode($jsonContents , true);
+
+        if (!$legoData) {
+            $io->error('Error decoding json');
+            return Command::FAILURE;
+
         }
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        foreach ($legoData as $item) {
+            $lego = new Lego($item['id']);
+            $lego->setName($item['name']);
+            $lego->setCollection($item['collection']);
+            $lego->setDescription($item['description']);
+            $lego->setPrice($item['price']);
+            $lego->setPieces($item['pieces']);
+            $lego->setBoxImage($item['images']['box']);
+            $lego->setLegoImage($item['images']['bg']);
+            // Utilisation du service pour insérer le Lego
+            $this->entityManager->persist($lego);
+        }
+       
+        
+        $this->entityManager->flush();
+        $io->success('you did it');
 
         return Command::SUCCESS;
     }
