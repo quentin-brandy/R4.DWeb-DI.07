@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Service\CreditsGenerator;
 use App\Service\DatabaseInterface;
 use App\Repository\LegoRepository;
+use App\Entity\LegoCollection;
+use App\Repository\LegoCollectionRepository;
 
 
 
@@ -58,10 +60,11 @@ class LegoController extends AbstractController
            public function homeAll(LegoRepository $legoRepository): Response
            {  
                $legos = $legoRepository->findAll();
-            $collections = $legoRepository->findAllCollections();
+    
+            // $collections = $legoRepository->findAllCollections();
                return $this->render("lego.html.twig", [
                    'legos' => $legos,
-                   'collections' => $collections
+                //    'collections' => $collections
                ]);
            }
    
@@ -72,16 +75,16 @@ class LegoController extends AbstractController
    }
 
    
-#[Route('/{collection}', name: 'filter_by_collection')]
-public function filterByCollection(string $collection, LegoRepository $legoRepository): Response
-{  
-    $legos = $legoRepository->findByCollection($collection = ucwords(str_replace('_',' ', $collection )));
-    $collections = $legoRepository->findAllCollections();
-    return $this->render("lego.html.twig", [
-        'legos' => $legos,
-        'collections' =>$collections
-    ]);
-}
+// #[Route('/{collection}', name: 'filter_by_collection')]
+// public function filterByCollection(string $collection, LegoRepository $legoRepository): Response
+// {  
+//     $legos = $legoRepository->findByCollection($collection = ucwords(str_replace('_',' ', $collection )));
+//     $collections = $legoRepository->findAllCollections();
+//     return $this->render("lego.html.twig", [
+//         'legos' => $legos,
+//         'collections' =>$collections
+//     ]);
+// }
 
 
     #[Route('/credits', 'credits')]
@@ -103,7 +106,6 @@ public function filterByCollection(string $collection, LegoRepository $legoRepos
     {
         $l = new Lego(1234);
         $l->setName("un beau Lego");
-        $l->setCollection("Lego espace");
         $l->setDescription("eeeeeeeeeeeeeeeeeeeeeeeeeee");
         $l->setPrice("1220.02");
         $l->setPieces("200");

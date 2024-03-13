@@ -46,26 +46,28 @@ class LegoRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function findAllCollections(): array
-    {
-            $result = $this->createQueryBuilder('l')
-            ->select('DISTINCT l.collection')
-            ->getQuery()
-            ->getResult();
-            $collections = [];
-            foreach ($result as $item) {
-                $collections[] = $item['collection'];
-            }
+    // public function findAllCollections(): array
+    // {
+    //         $result = $this->createQueryBuilder('l')
+    //         ->select('DISTINCT l.collection')
+    //         ->getQuery()
+    //         ->getResult();
+    //         $collections = [];
+    //         foreach ($result as $item) {
+    //             $collections[] = $item['collection'];
+    //         }
     
-            return $collections;
-    }
+    //         return $collections;
+    // }
 
-    public function findByCollection(string $collection): array
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.collection = :collection')
-            ->setParameter('collection', $collection)
-            ->getQuery()
-            ->getResult();
-    }
+    // public function findByCollection(string $collection): array
+    // {
+    //     return $this->createQueryBuilder('l')
+    //         ->andWhere('l.collection = :collection')
+    //         ->setParameter('collection', $collection)
+    //         ->getQuery()
+    //         ->getResult();
+    // }
+
+    
 }

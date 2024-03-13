@@ -54,7 +54,6 @@ class PopulateDatabaseCommand extends Command
         foreach ($legoData as $item) {
             $lego = new Lego($item['id']);
             $lego->setName($item['name']);
-            $lego->setCollection($item['collection']);
             $lego->setDescription($item['description']);
             $lego->setPrice($item['price']);
             $lego->setPieces($item['pieces']);
