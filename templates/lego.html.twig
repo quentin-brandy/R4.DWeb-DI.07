@@ -4,12 +4,9 @@
    <nav>
     <a href="/">All</a> |
     
-    {# {% for coll in collections %}
-    <a href="/{{coll}}">{{coll}}</a> |
-    {% endfor %}  #}
-        <a href="/Creator">Creator</a> |
-            <a href="/Creator Expert">Creator Expert</a> |
-                <a href="/Star Wars">Star Wars</a> |
+    {% for coll in collections %}
+    <a href="/{{coll.name}}">{{coll.name}}</a> |
+    {% endfor %}  
 
 </nav>
    {% for lego in legos %}

@@ -20,8 +20,6 @@ use App\Repository\LegoRepository;
 use App\Entity\LegoCollection;
 use App\Repository\LegoCollectionRepository;
 
-
-
 /* le nom de la classe doit être cohérent avec le nom du fichier */
 
 
@@ -30,41 +28,22 @@ class LegoController extends AbstractController
 {
     private $legos = [];
 
-    public function __construct()
+    public function __construct(private LegoRepository $legoRepository, private LegoCollectionRepository $legoCollectionRepository) 
     {
       
-        $dataFilePath = __DIR__ . '/../data.json';
-        $jsonContents = file_get_contents($dataFilePath);
-        $legoData = json_decode($jsonContents);
-
-        foreach ($legoData as $data) {
-            $lego = new Lego(
-                $data->id,
-                $data->name,
-                $data->collection
-            );
-
-            $lego->setDescription($data->description);
-            $lego->setPrice($data->price);
-            $lego->setPieces($data->pieces);
-            $lego->setBoxImage($data->images->box);
-            $lego->setLegoImage($data->images->bg);
-
-            $this->legos[] = $lego;
-        }
         
     }
 
       
        #[Route('/', name: 'home')]
-           public function homeAll(LegoRepository $legoRepository): Response
+           public function homeAll(): Response
            {  
-               $legos = $legoRepository->findAll();
     
-            // $collections = $legoRepository->findAllCollections();
+             
                return $this->render("lego.html.twig", [
-                   'legos' => $legos,
-                //    'collections' => $collections
+                   'legos' => $this->legoRepository->findAll(),
+                   'collections' => $this->legoCollectionRepository->findAll(),
+
                ]);
            }
    
@@ -121,6 +100,13 @@ class LegoController extends AbstractController
          return new Response('Saved new product with id '.$l->getId());
     }
 
+    #[Route('/{name}', 'category')]
+    public function category(LegoCollection $collection): Response
+    {
+        $legos = $collection->getLegos();
+        return $this->render('lego.html.twig', ['legos' => $legos ,  'collections' => $this->legoCollectionRepository->findAll(),]);
+    }
 
-}
+
+}    
    

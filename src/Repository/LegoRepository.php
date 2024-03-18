@@ -56,18 +56,18 @@ class LegoRepository extends ServiceEntityRepository
     //         foreach ($result as $item) {
     //             $collections[] = $item['collection'];
     //         }
-    
+//
     //         return $collections;
     // }
-
-    // public function findByCollection(string $collection): array
-    // {
-    //     return $this->createQueryBuilder('l')
-    //         ->andWhere('l.collection = :collection')
-    //         ->setParameter('collection', $collection)
-    //         ->getQuery()
-    //         ->getResult();
-    // }
-
+//
+   // public function findByCollection(string $collection): array
+   // {
+   //     return $this->createQueryBuilder('l')
+   //         ->andWhere('l.collection = :collection')
+   //         ->setParameter('collection', $collection)
+   //         ->getQuery()
+   //         ->getResult();
+   // }
+//
     
 }
