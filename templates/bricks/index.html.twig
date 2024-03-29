@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BricksController!{% endblock %}
+
+{% block body %}
+
+ <nav class="bricksnav">
+    <a href="/">All</a> |
+    
+    {% for coll in collections %}
+    <a href="/bricks/{{coll.name}}">{{coll.name}}</a> |
+    {% endfor %}  
+  <a href="/">Lego Store</a> 
+</nav>
+<div class="brickscard">
+  {% for brick in bricks %}
+
+            <div class="brickcard">
+          <img class="brickimg" src="/images/{{brick.image}}.jpg"/>
+            <h2 class="brickvente">Meilleur vente</h2>
+          <div class="brickinfo">
+       <h2 class="brickname">{{brick.name}}</h2>
+        <h4 class="brickid"> id:{{brick.image}}</h4>
+          </div>
+               <h2 class="brickprix">{{brick.prix}}€</h2>
+               <a class="brickbtn" href="/bircks/{{brick.id}}"> Choisir </a>
+</div>
+  {% endfor %}
+  </div>
+{% endblock %}

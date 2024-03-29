@@ -134,7 +134,69 @@
 	 background-size: cover;
 	 border-radius: 11px;
 }
-
+.brickscard{
+display: flex;
+flex-wrap: wrap;
+}
+.brickcard{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	justify-content: start;
+	border: solid 2px grey;
+	margin-top: 10rem;
+	padding-right: 2rem;
+	padding-left: 1rem;
+	margin-left: 2rem;
+	width: 20rem;
+	}
+	.brickimg{
+		width: 10rem;
+	}
+.bricksnav{
+	position: relative;
+	
+}
+.brickvente{
+	background-color: yellow;
+	font-size: 0.9rem;
+	padding: 0.4rem;
+	margin-bottom: 0.5rem;
+}
+.brickname{
+	font-weight: 600;
+	font-size: 0.9rem;
+}
+.brickid{
+	font-weight: 500;
+	font-size: 0.8rem;
+}
+.brickinfo{
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	margin-bottom: 1rem;
+}
+.brickbtn{
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #1687d9;
+	color: white;
+	width: 90%;
+	top: 80%;
+	margin-left: 1rem;
+	margin: auto;
+	padding: 1rem;
+	border-radius: 6px;
+}
+.brickprix{
+	padding-bottom: 5rem;
+	font-weight: 600;
+	font-size: 1rem;
+}
  @media screen and (min-width: 768px) {
 	 .lego_header {
 		 width: 65%;
